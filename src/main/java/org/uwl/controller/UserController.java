@@ -69,7 +69,9 @@ public class UserController {
   @GetMapping(path = "/loggedInUser")
   public ResponseEntity<User> loggedInUser() {
     final User user = userService.getLoggedInUser();
-    user.setPassword(null);
+    if (user != null) {
+      user.setPassword(null);
+    }
     return ResponseEntity.ok(user);
   }
 }
