@@ -29,15 +29,14 @@ public class UserEmail {
     }
   }
 
-  public void sendForgetPasswordEmail(final User user) {
+  public void sendForgetPasswordEmail(final User user, final String password) {
     try {
       SimpleMailMessage message = new SimpleMailMessage();
       message.setFrom("info@restosys.co.uk");
       message.setTo(user.getEmail());
       message.setSubject("Your new password");
       String body =
-          String.format(
-              "Hello %s, \n\n Your new password: %s", user.getFirstName(), user.getPassword());
+          String.format("Hello %s, \n\n Your new password: %s", user.getFirstName(), password);
       message.setText(body);
       mailSender.send(message);
     } catch (Exception e) {

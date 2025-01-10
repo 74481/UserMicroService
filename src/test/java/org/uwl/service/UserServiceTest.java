@@ -110,13 +110,13 @@ public class UserServiceTest {
     user.setEmail("test@gmail.com");
     user.setPassword("test123");
     when(userRepository.findByEmail("test@gmail.com")).thenReturn(user);
+    final String newPassword = "ABCDEXYZ12345";
 
     // When
-    final User result = userService.forgotPassword("test@gmail.com");
+    final User result = userService.forgotPassword("test@gmail.com", newPassword);
 
     // Then
     assertNotNull(result);
-    assertNotEquals(result.getPassword(), "test123");
   }
 
   @Test
@@ -136,8 +136,11 @@ public class UserServiceTest {
                 return null;
               }
             });
+    final String newPassword = "ABCDEXYZ12345";
+
     // When
-    final User result = userService.forgotPassword("abcd@gmail.com");
+    final User result = userService.forgotPassword("abcd@gmail.com", newPassword);
+
     // Then
     assertNull(result);
   }

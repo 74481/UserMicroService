@@ -1,7 +1,6 @@
 /** Name: Dhruvi Anil Lakhani Student ID: 21512162 */
 package org.uwl.service;
 
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,11 +49,10 @@ public class UserService {
   }
 
   @Transactional
-  public User forgotPassword(final String email) {
+  public User forgotPassword(final String email, final String newPassword) {
     final User user = userRepository.findByEmail(email);
     if (user != null) {
-      final String newPassword = UUID.randomUUID().toString().substring(0, 8);
-      user.setPassword(newPassword);
+      user.setPassword(passwordEncoder.encode(newPassword));
       userRepository.save(user);
     }
     return user;

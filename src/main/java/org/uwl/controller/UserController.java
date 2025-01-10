@@ -2,6 +2,7 @@
 package org.uwl.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,9 +59,10 @@ public class UserController {
   @Operation
   @PostMapping(path = "/forgotPassword")
   public ResponseEntity<Boolean> forgotPassword(@RequestBody User user) {
-    final User userDB = userService.forgotPassword(user.getEmail());
+    final String newPassword = UUID.randomUUID().toString().substring(0, 8);
+    final User userDB = userService.forgotPassword(user.getEmail(), newPassword);
     if (userDB != null) {
-      CompletableFuture.runAsync(() -> userEmail.sendForgetPasswordEmail(userDB));
+      CompletableFuture.runAsync(() -> userEmail.sendForgetPasswordEmail(userDB, newPassword));
     }
     return ResponseEntity.ok(userDB != null);
   }
